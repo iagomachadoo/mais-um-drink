@@ -28,8 +28,12 @@ function inserirUltimoFilho(pai, filho){
 const LISTA_CONTEUDO = document.querySelector('.conteudo');
 const BTN_PESQUISAR_DRINK = document.querySelector('#btn-pesquisar');
 
-function mostrarDrinks(ingrediente){
-    fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${ingrediente}`)
+/* const URL_PARAMETRO = new URLSearchParams(window.location.search);
+const PESQUISA = URL_PARAMETRO.get('pesquisa');
+console.log(PESQUISA); */
+
+function mostrarDrinks(nomeDrink){
+    fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${nomeDrink}`)
     .then((response) => {
         return response.json(); 
     })
@@ -69,7 +73,6 @@ function mostrarDrinks(ingrediente){
     
             TITULO_DESC.innerText = 'Modo de Preparo';
             DESC.innerText = item.strInstructions.split('\n').join(' ').split('\r').join(' ');
-            console.log(item.strInstructions.split('\r'));
 
             for (let index = 1; index < 15; index++) {
                 const NUM_INGREDIENTE = `strIngredient${index}`;
@@ -131,9 +134,7 @@ function imgIngrediente(ingrediente){
     return fetch(`https://www.thecocktaildb.com/images/ingredients/${ingrediente}-Small.png`);
 };
 
-BTN_PESQUISAR_DRINK.addEventListener('click', (e)=>{
-    e.preventDefault();
-
+function pesquisarDrink(){
     const DRINK_A_PESQUISAR = document.querySelector('#pesquisa');
 
     if(DRINK_A_PESQUISAR.value && !parseInt(DRINK_A_PESQUISAR.value)){
@@ -147,4 +148,16 @@ BTN_PESQUISAR_DRINK.addEventListener('click', (e)=>{
     }
 
     LISTA_CONTEUDO.innerHTML = '';
+};
+
+BTN_PESQUISAR_DRINK.addEventListener('click', (e)=>{
+    e.preventDefault();
+    pesquisarDrink();
+});
+
+BTN_PESQUISAR_DRINK.addEventListener('keyup', (e)=>{
+    e.preventDefault();
+    if(e.code === 'Enter'){
+        pesquisarDrink();
+    }
 });
