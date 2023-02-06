@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <title>Mais um drink</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+    <header class="header mb-4">
+        <div class="container">
+            <div class="header__logo">
+                <span class="header__nome">mais um drink</span>
+                <img src="./assets/img/img-logo.svg" alt="duas taças de champagne brindando" class="header__img">
+            </div>
+        </div>
+    </header>
+
+    <form class="container mb-5">
+        <div class="form">
+            <label for="pesquisa" class="form__label mb-1">Digite o nome de um drink</label>
+            <input type="text" name="pesquisa" class="form__input" id="pesquisa" placeholder="EX: martini">
+            <span class="form__alerta d-inline-block visivel-hidden mb-2">*Digite um valor válido</span>
+            <input type="button" value="Pesquisar" id="btn-pesquisar" class="form__btn">
+        </div>
+    </form>
+
+    <section class="container">
+        <ul class="conteudo">
+        </ul>
+    </section>
+
+    <script src="./assets/javascript/api-drink.js"></script>
+</body>
+</html>
