@@ -62,6 +62,7 @@ function pesquisarDrink(){
     if(PEQUISA_NAO_VAZIA && PESQUISA_COM_LETRA){
         document.querySelector('.form__alerta').classList.add('visivel-hidden');
         mostrarDrinks(DRINK_A_PESQUISAR.value);
+        document.querySelector('.footer').style.position = "initial";
         DRINK_A_PESQUISAR.value = '';
         
     }else{

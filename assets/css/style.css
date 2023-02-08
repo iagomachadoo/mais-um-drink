@@ -9,11 +9,6 @@
     src: url("../fonts/roboto/Roboto-Regular.ttf");
 }
 
-ul{
-    padding: 0;
-    list-style: none;
-}
-
 :root{
     --font-decorativa: 'cocktail', sans-serif;
     --font-padrao: 'roboto', sans-serif;
@@ -25,6 +20,15 @@ ul{
     --cor-alerta: #B60000;
     --border: 1px solid var(--cor-borda);
     --border-radius: 4px
+}
+
+html, body{
+    min-height: 100%;
+}
+
+ul{
+    padding: 0;
+    list-style: none;
 }
 
 .n-visivel{
@@ -103,10 +107,6 @@ ul{
     background-color: transparent;
 }
 
-.conteudo__header{
-    cursor: pointer;
-}
-
 .conteudo__item{
     background-color: var(--cor-background);
     border: var(--border);
@@ -136,6 +136,29 @@ ul{
 .conteudo__body-descricao{
     font-family: var(--font-padrao);
     font-size: 18px;
+}
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--cor-header);
+}
+
+.footer__link{
+    background-color: var(--cor-logo);
+    max-width: max-content;
+    border-radius: var(--border-radius);
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer__link strong{
+    font-weight: 600;
+}
+
+.footer__link:hover strong{
+    text-decoration: underline;
 }
 
 @media(max-width: 576px){
