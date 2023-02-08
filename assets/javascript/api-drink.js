@@ -11,133 +11,55 @@ const ESTRUTURA = {
     texto: 'p',
     attrClass: 'class',
     attrSrc: 'src',
-};
+    criarElemento(elemento){
+        return document.createElement(elemento);
+    },
+    criarAtributo(elemento, attr, value){
+        return elemento.setAttribute(attr, value);
+    },
+    inserirUltimoFilho(pai, filho){
+        return pai.appendChild(filho);
+    },
 
-function criarElemento(elemento){
-    return document.createElement(elemento);
-};
-
-function criarAtributo(elemento, attr, value){
-    return elemento.setAttribute(attr, value);
-};
-
-function inserirUltimoFilho(pai, filho){
-    return pai.appendChild(filho);
 };
 
 const LISTA_CONTEUDO = document.querySelector('.conteudo');
 const BTN_PESQUISAR_DRINK = document.querySelector('#btn-pesquisar');
 
-/* const URL_PARAMETRO = new URLSearchParams(window.location.search);
-const PESQUISA = URL_PARAMETRO.get('pesquisa');
-console.log(PESQUISA); */
+function fetchDrinks(nomeDrink){
+    return fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${nomeDrink}`)
+};
 
-function mostrarDrinks(nomeDrink){
-    fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${nomeDrink}`)
-    .then((response) => {
-        return response.json(); 
-    })
-    .then((body) => {
-        const LISTA_DE_DRINKS = body.drinks;
-        
-        LISTA_DE_DRINKS.forEach((item) => {
-            const CONTEUDO_ITEM = criarElemento(ESTRUTURA.item);
-            criarAtributo(CONTEUDO_ITEM, 'class', 'conteudo__item p-3 mb-4');
-            
-            const CONTEUDO_HEADER = criarElemento(ESTRUTURA.box);
-            criarAtributo(CONTEUDO_HEADER, ESTRUTURA.attrClass, 'conteudo__header d-flex align-items-center mb-4');
-    
-            const CONTEUDO_BODY = criarElemento(ESTRUTURA.box);
-            criarAtributo(CONTEUDO_BODY, ESTRUTURA.attrClass, 'conteudo__body');
-    
-    
-            const THUMB_DRINK = criarElemento(ESTRUTURA.imagem);
-            criarAtributo(THUMB_DRINK, ESTRUTURA.attrClass, 'conteudo__img img-fluid conteudo__img me-4');
-            criarAtributo(THUMB_DRINK, ESTRUTURA.attrSrc, item.strDrinkThumb);
-    
-            const TITULO_DRINK = criarElemento(ESTRUTURA.titulo);
-            criarAtributo(TITULO_DRINK, ESTRUTURA.attrClass, 'conteudo__titulo mb-0');
-    
-            
-            TITULO_DRINK.innerText = item.strDrink;
-    
-    
-            const LISTA_INGREDIENTES = criarElemento(ESTRUTURA.lista);
-            criarAtributo(LISTA_INGREDIENTES, ESTRUTURA.attrClass, 'conteudo__body-lista row');
-    
-            const TITULO_DESC = criarElemento(ESTRUTURA.subTitulo2);
-            criarAtributo(TITULO_DESC, ESTRUTURA.attrClass, 'conteudo__body-preparo mt-5');
-    
-            const DESC = criarElemento(ESTRUTURA.texto);
-            criarAtributo(DESC, ESTRUTURA.attrClass, 'conteudo__body-descricao');
-    
-            TITULO_DESC.innerText = 'Modo de Preparo';
-            DESC.innerText = item.strInstructions.split('\n').join(' ').split('\r').join(' ');
-
-            for (let index = 1; index < 15; index++) {
-                const NUM_INGREDIENTE = `strIngredient${index}`;
-                const QUANT_INGREDIENTE = `strMeasure${index}`;
-    
-                const INGREDIENTE_DRINK = item[NUM_INGREDIENTE];
-                const QUANT_INGREDIENTE_DRINK = item[QUANT_INGREDIENTE];
-                
-                if(INGREDIENTE_DRINK){
-                    const ITEM_INGREDIENTE = criarElemento(ESTRUTURA.item);
-                    criarAtributo(ITEM_INGREDIENTE, ESTRUTURA.attrClass, 'conteudo__body-item col-lg-3 col-sm-4 col-12 mt-4 d-flex align-items-center flex-column');
-    
-                    const BOX_THUMB_INGREDIENTE = criarElemento(ESTRUTURA.box);
-                    criarAtributo(BOX_THUMB_INGREDIENTE, ESTRUTURA.attrClass, 'conteudo__body-ingrediente mb-2');
-    
-                    imgIngrediente(INGREDIENTE_DRINK) 
-                    .then((response) => response.blob())
-                    .then((url) => {
-                        const URL_IMAGEM_INGREDIENTE = URL.createObjectURL(url);
-    
-                        const THUMB_INGREDIENTE = criarElemento(ESTRUTURA.imagem);
-                        criarAtributo(THUMB_INGREDIENTE, ESTRUTURA.attrSrc, URL_IMAGEM_INGREDIENTE);
-    
-                        const INFO_INGREDIENTE = criarElemento(ESTRUTURA.subTitulo);
-                        criarAtributo(INFO_INGREDIENTE, ESTRUTURA.attrClass, 'conteudo__body-quantidade');
-    
-                        INFO_INGREDIENTE.innerText = `${INGREDIENTE_DRINK} - ${QUANT_INGREDIENTE_DRINK}`
-    
-                        inserirUltimoFilho(LISTA_INGREDIENTES, ITEM_INGREDIENTE);
-                        inserirUltimoFilho(ITEM_INGREDIENTE, BOX_THUMB_INGREDIENTE);
-                        inserirUltimoFilho(BOX_THUMB_INGREDIENTE, THUMB_INGREDIENTE);
-                        inserirUltimoFilho(ITEM_INGREDIENTE, INFO_INGREDIENTE);
-                    }); 
-                };
-            };
-    
-            inserirUltimoFilho(LISTA_CONTEUDO, CONTEUDO_ITEM);
-    
-    
-            inserirUltimoFilho(CONTEUDO_ITEM, CONTEUDO_HEADER);
-            inserirUltimoFilho(CONTEUDO_ITEM, CONTEUDO_BODY);
-            
-    
-            inserirUltimoFilho(CONTEUDO_HEADER, THUMB_DRINK);
-            inserirUltimoFilho(CONTEUDO_HEADER, TITULO_DRINK);
-    
-    
-            inserirUltimoFilho(CONTEUDO_BODY, LISTA_INGREDIENTES);
-            inserirUltimoFilho(CONTEUDO_BODY, TITULO_DESC);
-            inserirUltimoFilho(CONTEUDO_BODY, DESC);
-        })
-    })
-    .catch((error) => {
-        console.log(error);
-    });
-}
+function fetchDrinksUmaLetra(primeiraLetraDrink){
+    return fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${primeiraLetraDrink}`)
+};
 
 function imgIngrediente(ingrediente){
     return fetch(`https://www.thecocktaildb.com/images/ingredients/${ingrediente}-Small.png`);
 };
 
+function mostrarDrinks(respostaFetch){
+    const RESPOSTA_API = respostaFetch.length === 1 ? fetchDrinksUmaLetra(respostaFetch) : fetchDrinks(respostaFetch);
+    
+    RESPOSTA_API
+    .then((response) => {
+        return response.json(); 
+    })
+    .then((body) => {
+        listaDrinks(body);
+    })
+    .catch((error) => {
+        console.log(Error(error));
+    });
+}
+
 function pesquisarDrink(){
     const DRINK_A_PESQUISAR = document.querySelector('#pesquisa');
 
-    if(DRINK_A_PESQUISAR.value && !parseInt(DRINK_A_PESQUISAR.value)){
+    const PEQUISA_NAO_VAZIA = DRINK_A_PESQUISAR.value;
+    const PESQUISA_COM_LETRA = !parseInt(DRINK_A_PESQUISAR.value);
+
+    if(PEQUISA_NAO_VAZIA && PESQUISA_COM_LETRA){
         document.querySelector('.form__alerta').classList.add('visivel-hidden');
         mostrarDrinks(DRINK_A_PESQUISAR.value);
         DRINK_A_PESQUISAR.value = '';
@@ -148,6 +70,90 @@ function pesquisarDrink(){
     }
 
     LISTA_CONTEUDO.innerHTML = '';
+};
+
+function criaElementoEAtributo(elemento, attr, valor){
+    const ELEMENTO_HTML = document.createElement(elemento);
+    ELEMENTO_HTML.setAttribute(attr, valor)
+    
+    return ELEMENTO_HTML;
+}
+
+function criarImagemIngrediente(url){
+    const URL_IMAGEM_INGREDIENTE = URL.createObjectURL(url);
+
+    const THUMB_INGREDIENTE = ESTRUTURA.criarElemento(ESTRUTURA.imagem);
+    ESTRUTURA.criarAtributo(THUMB_INGREDIENTE, ESTRUTURA.attrSrc, URL_IMAGEM_INGREDIENTE);
+
+    return THUMB_INGREDIENTE;
+}
+
+function listaDrinks(lista){
+    const LISTA_DE_DRINKS = lista.drinks;
+        
+    LISTA_DE_DRINKS.forEach((item) => {
+        const CONTEUDO_ITEM = criaElementoEAtributo(ESTRUTURA.item, ESTRUTURA.attrClass, 'conteudo__item p-3 mb-4');
+
+        const CONTEUDO_HEADER = criaElementoEAtributo(ESTRUTURA.box, ESTRUTURA.attrClass, 'conteudo__header d-flex align-items-center mb-4');
+        
+        const CONTEUDO_BODY = criaElementoEAtributo(ESTRUTURA.box, ESTRUTURA.attrClass, 'conteudo__body');
+
+        const THUMB_DRINK = criaElementoEAtributo(ESTRUTURA.imagem, ESTRUTURA.attrClass, 'conteudo__img img-fluid conteudo__img me-4');
+        ESTRUTURA.criarAtributo(THUMB_DRINK, ESTRUTURA.attrSrc, item.strDrinkThumb);
+
+        const TITULO_DRINK = criaElementoEAtributo(ESTRUTURA.titulo, ESTRUTURA.attrClass, 'conteudo__titulo mb-0')
+        
+        TITULO_DRINK.innerText = item.strDrink;
+
+        const LISTA_INGREDIENTES = criaElementoEAtributo(ESTRUTURA.lista, ESTRUTURA.attrClass, 'conteudo__body-lista row');
+
+        const TITULO_DESC = criaElementoEAtributo(ESTRUTURA.subTitulo2, ESTRUTURA.attrClass, 'conteudo__body-preparo mt-5');
+
+        const DESC = criaElementoEAtributo(ESTRUTURA.texto, ESTRUTURA.attrClass, 'conteudo__body-descricao');
+
+        TITULO_DESC.innerText = 'Modo de Preparo';
+        DESC.innerText = item.strInstructions.split('\n').join(' ').split('\r').join(' ');
+
+        for (let index = 1; index < 15; index++) {
+            const NUM_INGREDIENTE = `strIngredient${index}`;
+            const QUANT_INGREDIENTE = `strMeasure${index}`;
+
+            const INGREDIENTE_DRINK = item[NUM_INGREDIENTE];
+            const QUANT_INGREDIENTE_DRINK = item[QUANT_INGREDIENTE];
+            
+            if(INGREDIENTE_DRINK){
+                const ITEM_INGREDIENTE = criaElementoEAtributo(ESTRUTURA.item, ESTRUTURA.attrClass, 'conteudo__body-item col-lg-3 col-sm-4 col-12 mt-4 d-flex align-items-center flex-column');
+                
+                const BOX_THUMB_INGREDIENTE = criaElementoEAtributo(ESTRUTURA.box, ESTRUTURA.attrClass, 'conteudo__body-ingrediente mb-2');
+
+                imgIngrediente(INGREDIENTE_DRINK) 
+                .then((response) => response.blob())
+                .then((url) => {
+                    const INFO_INGREDIENTE = ESTRUTURA.criarElemento(ESTRUTURA.subTitulo);
+                    ESTRUTURA.criarAtributo(INFO_INGREDIENTE, ESTRUTURA.attrClass, 'conteudo__body-quantidade');
+
+                    INFO_INGREDIENTE.innerText = `${INGREDIENTE_DRINK} - ${QUANT_INGREDIENTE_DRINK}`
+
+                    ESTRUTURA.inserirUltimoFilho(LISTA_INGREDIENTES, ITEM_INGREDIENTE);
+                    ESTRUTURA.inserirUltimoFilho(ITEM_INGREDIENTE, BOX_THUMB_INGREDIENTE);
+                    ESTRUTURA.inserirUltimoFilho(BOX_THUMB_INGREDIENTE, criarImagemIngrediente(url));
+                    ESTRUTURA.inserirUltimoFilho(ITEM_INGREDIENTE, INFO_INGREDIENTE);
+                }); 
+            };
+        };
+
+        ESTRUTURA.inserirUltimoFilho(LISTA_CONTEUDO, CONTEUDO_ITEM);
+
+        ESTRUTURA.inserirUltimoFilho(CONTEUDO_ITEM, CONTEUDO_HEADER);
+        ESTRUTURA.inserirUltimoFilho(CONTEUDO_ITEM, CONTEUDO_BODY);
+        
+        ESTRUTURA.inserirUltimoFilho(CONTEUDO_HEADER, THUMB_DRINK);
+        ESTRUTURA.inserirUltimoFilho(CONTEUDO_HEADER, TITULO_DRINK);
+
+        ESTRUTURA.inserirUltimoFilho(CONTEUDO_BODY, LISTA_INGREDIENTES);
+        ESTRUTURA.inserirUltimoFilho(CONTEUDO_BODY, TITULO_DESC);
+        ESTRUTURA.inserirUltimoFilho(CONTEUDO_BODY, DESC);
+    })
 };
 
 BTN_PESQUISAR_DRINK.addEventListener('click', (e)=>{
