@@ -55,6 +55,7 @@ function mostrarDrinks(respostaFetch){
 
 function pesquisarDrink(){
     const DRINK_A_PESQUISAR = document.querySelector('#pesquisa');
+    const FOOTER = document.querySelector('.footer');
 
     const PEQUISA_NAO_VAZIA = DRINK_A_PESQUISAR.value;
     const PESQUISA_COM_LETRA = !parseInt(DRINK_A_PESQUISAR.value);
@@ -62,7 +63,13 @@ function pesquisarDrink(){
     if(PEQUISA_NAO_VAZIA && PESQUISA_COM_LETRA){
         document.querySelector('.form__alerta').classList.add('visivel-hidden');
         mostrarDrinks(DRINK_A_PESQUISAR.value);
-        document.querySelector('.footer').style.position = "initial";
+        FOOTER.style.display = "none";
+
+        setTimeout(()=>{
+            FOOTER.style.display = "block";
+            FOOTER.style.position = "initial";
+        }, 1000);
+
         DRINK_A_PESQUISAR.value = '';
         
     }else{
