@@ -71,8 +71,10 @@ function fetchDrinksIngrediente(nomeIngrediente){
                 .then(resposta => resposta.json())
                 .then(respostaJson => {
                     respostaJson.drinks.forEach((item) => {
-                        criarEstrutura(item)
-                    })
+                        if(item.strAlcoholic === "Alcoholic"){
+                            criarEstrutura(item)
+                        };
+                    });
                 });
             };
         };
@@ -199,7 +201,9 @@ function listaDrinks(lista){
     const LISTA_DRINK = lista.drinks;
 
     LISTA_DRINK.forEach((item) => {
-        criarEstrutura(item)
+        if(item.strAlcoholic === "Alcoholic"){
+            criarEstrutura(item)
+        };
     });
 };
 
