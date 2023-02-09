@@ -65,19 +65,16 @@ ul{
     height: auto;
 }
 
-.form{
-    display: flex;
-    flex-direction: column;
-}
-
-.form__label{
+.form__label,
+.select__label{
     font-family: var(--font-padrao);
     font-size: 18px;
     font-weight: 300;
     color: var(--cor-texto);
 }
 
-.form__input{
+.form__input,
+.select__escolha{
     max-width: 300px;
     margin-bottom: 2px;
     padding: 4px 8px;
